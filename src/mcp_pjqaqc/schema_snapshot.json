@@ -1,0 +1,2365 @@
+{
+ "tables": {
+  "assay_calibrator_requirements": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "calibrator_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "required",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "priority",
+     "type": "smallint(5) unsigned",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "assay_id",
+    "calibrator_product_id"
+   ],
+   "unique_keys": {},
+   "foreign_keys": [
+    {
+     "name": "fk_acr_assay",
+     "columns": [
+      "assay_id"
+     ],
+     "ref_table": "instrument_assays",
+     "ref_columns": [
+      "assay_id"
+     ]
+    },
+    {
+     "name": "fk_acr_product",
+     "columns": [
+      "calibrator_product_id"
+     ],
+     "ref_table": "calibrator_products",
+     "ref_columns": [
+      "calibrator_product_id"
+     ]
+    }
+   ]
+  },
+  "assay_qc_requirements": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "required",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "priority",
+     "type": "smallint(5) unsigned",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "assay_id",
+    "qc_product_id"
+   ],
+   "unique_keys": {},
+   "foreign_keys": [
+    {
+     "name": "fk_aqr_assay",
+     "columns": [
+      "assay_id"
+     ],
+     "ref_table": "instrument_assays",
+     "ref_columns": [
+      "assay_id"
+     ]
+    },
+    {
+     "name": "fk_aqr_product",
+     "columns": [
+      "qc_product_id"
+     ],
+     "ref_table": "qc_products",
+     "ref_columns": [
+      "qc_product_id"
+     ]
+    }
+   ]
+  },
+  "assay_reagent_requirements": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_role",
+     "type": "varchar(30)",
+     "nullable": false,
+     "default": "'PRIMARY'",
+     "allowed_values": [
+      "PRIMARY",
+      "AUXILIARY",
+      "DILUENT",
+      "WASH",
+      "OTHER"
+     ]
+    },
+    {
+     "name": "required",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "priority",
+     "type": "smallint(5) unsigned",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "assay_id",
+    "reagent_product_id",
+    "reagent_role"
+   ],
+   "unique_keys": {},
+   "foreign_keys": [
+    {
+     "name": "fk_arr_assay",
+     "columns": [
+      "assay_id"
+     ],
+     "ref_table": "instrument_assays",
+     "ref_columns": [
+      "assay_id"
+     ]
+    },
+    {
+     "name": "fk_arr_product",
+     "columns": [
+      "reagent_product_id"
+     ],
+     "ref_table": "reagent_products",
+     "ref_columns": [
+      "reagent_product_id"
+     ]
+    }
+   ]
+  },
+  "calibration_events": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "calibration_event_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "calibrator_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "calibrator_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "performed_at",
+     "type": "datetime(6)",
+     "nullable": false
+    },
+    {
+     "name": "operator_id",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "calibration_reason",
+     "type": "varchar(30)",
+     "nullable": false,
+     "default": "'SCHEDULED'",
+     "allowed_values": [
+      "SCHEDULED",
+      "NEW_LOT",
+      "QC_FAILURE",
+      "MAINTENANCE",
+      "OTHER"
+     ]
+    },
+    {
+     "name": "event_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "allowed_values": [
+      "PASS",
+      "FAIL",
+      "CANCELLED"
+     ]
+    },
+    {
+     "name": "instrument_event_id",
+     "type": "varchar(120)",
+     "nullable": true
+    },
+    {
+     "name": "raw_data_uri",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(1000)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "calibration_event_id"
+   ],
+   "unique_keys": {
+    "uq_cal_event_identity": [
+     "calibration_event_id",
+     "instrument_id",
+     "calibrator_product_id"
+    ],
+    "uq_cal_event_instrument_ref": [
+     "instrument_id",
+     "instrument_event_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_cal_event_instrument",
+     "columns": [
+      "instrument_id"
+     ],
+     "ref_table": "instruments",
+     "ref_columns": [
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_cal_event_lot_product",
+     "columns": [
+      "calibrator_lot_id",
+      "calibrator_product_id"
+     ],
+     "ref_table": "calibrator_lots",
+     "ref_columns": [
+      "calibrator_lot_id",
+      "calibrator_product_id"
+     ]
+    }
+   ]
+  },
+  "calibration_event_assays": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "calibration_event_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "calibrator_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "assay_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "allowed_values": [
+      "PASS",
+      "FAIL",
+      "NOT_EVALUATED"
+     ]
+    },
+    {
+     "name": "pre_bias",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "post_bias",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "calibration_event_id",
+    "assay_id"
+   ],
+   "unique_keys": {},
+   "foreign_keys": [
+    {
+     "name": "fk_cea_assay_instrument",
+     "columns": [
+      "assay_id",
+      "instrument_id"
+     ],
+     "ref_table": "instrument_assays",
+     "ref_columns": [
+      "assay_id",
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_cea_calibrator_requirement",
+     "columns": [
+      "assay_id",
+      "calibrator_product_id"
+     ],
+     "ref_table": "assay_calibrator_requirements",
+     "ref_columns": [
+      "assay_id",
+      "calibrator_product_id"
+     ]
+    },
+    {
+     "name": "fk_cea_event_identity",
+     "columns": [
+      "calibration_event_id",
+      "instrument_id",
+      "calibrator_product_id"
+     ],
+     "ref_table": "calibration_events",
+     "ref_columns": [
+      "calibration_event_id",
+      "instrument_id",
+      "calibrator_product_id"
+     ]
+    }
+   ]
+  },
+  "calibration_event_reagents": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "calibration_event_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_role",
+     "type": "varchar(30)",
+     "nullable": false,
+     "default": "'PRIMARY'",
+     "allowed_values": [
+      "PRIMARY",
+      "AUXILIARY",
+      "DILUENT",
+      "WASH",
+      "OTHER"
+     ]
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "calibration_event_id",
+    "assay_id",
+    "reagent_lot_id",
+    "reagent_role"
+   ],
+   "unique_keys": {},
+   "foreign_keys": [
+    {
+     "name": "fk_cer_event_assay",
+     "columns": [
+      "calibration_event_id",
+      "assay_id"
+     ],
+     "ref_table": "calibration_event_assays",
+     "ref_columns": [
+      "calibration_event_id",
+      "assay_id"
+     ]
+    },
+    {
+     "name": "fk_cer_lot_product",
+     "columns": [
+      "reagent_lot_id",
+      "reagent_product_id"
+     ],
+     "ref_table": "reagent_lots",
+     "ref_columns": [
+      "reagent_lot_id",
+      "reagent_product_id"
+     ]
+    },
+    {
+     "name": "fk_cer_requirement",
+     "columns": [
+      "assay_id",
+      "reagent_product_id",
+      "reagent_role"
+     ],
+     "ref_table": "assay_reagent_requirements",
+     "ref_columns": [
+      "assay_id",
+      "reagent_product_id",
+      "reagent_role"
+     ]
+    }
+   ]
+  },
+  "calibrator_lots": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "calibrator_lot_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "calibrator_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "lot_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "level_code",
+     "type": "varchar(30)",
+     "nullable": false,
+     "default": "'DEFAULT'"
+    },
+    {
+     "name": "assigned_value_text",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "received_at",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "opened_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "expiry_date",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "lot_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'AVAILABLE'",
+     "allowed_values": [
+      "QUARANTINE",
+      "AVAILABLE",
+      "IN_USE",
+      "EXHAUSTED",
+      "EXPIRED",
+      "RECALLED"
+     ]
+    },
+    {
+     "name": "certificate_uri",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "calibrator_lot_id"
+   ],
+   "unique_keys": {
+    "uq_calibrator_lot_level": [
+     "calibrator_product_id",
+     "lot_number",
+     "level_code"
+    ],
+    "uq_calibrator_lot_product": [
+     "calibrator_lot_id",
+     "calibrator_product_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_calibrator_lots_product",
+     "columns": [
+      "calibrator_product_id"
+     ],
+     "ref_table": "calibrator_products",
+     "ref_columns": [
+      "calibrator_product_id"
+     ]
+    }
+   ]
+  },
+  "calibrator_products": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "calibrator_product_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "product_code",
+     "type": "varchar(60)",
+     "nullable": false
+    },
+    {
+     "name": "product_name",
+     "type": "varchar(180)",
+     "nullable": false
+    },
+    {
+     "name": "manufacturer",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "catalog_number",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "matrix_description",
+     "type": "varchar(255)",
+     "nullable": true
+    },
+    {
+     "name": "storage_condition",
+     "type": "varchar(255)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "calibrator_product_id"
+   ],
+   "unique_keys": {
+    "uq_calibrator_products_code": [
+     "product_code"
+    ]
+   },
+   "foreign_keys": []
+  },
+  "instruments": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "section_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "serial_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_name",
+     "type": "varchar(150)",
+     "nullable": false
+    },
+    {
+     "name": "manufacturer",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "model_name",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "instrument_role",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'主機'",
+     "allowed_values": [
+      "主機",
+      "備機",
+      "其他"
+     ]
+    },
+    {
+     "name": "backup_of_instrument_id",
+     "type": "char(36)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "installed_at",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "retired_at",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "instrument_id"
+   ],
+   "unique_keys": {
+    "uq_instruments_serial": [
+     "serial_number"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_instruments_backup_of",
+     "columns": [
+      "backup_of_instrument_id"
+     ],
+     "ref_table": "instruments",
+     "ref_columns": [
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_instruments_section",
+     "columns": [
+      "section_id"
+     ],
+     "ref_table": "lab_sections",
+     "ref_columns": [
+      "section_id"
+     ]
+    }
+   ]
+  },
+  "instrument_assays": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "test_item_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "specimen_type_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_test_code",
+     "type": "varchar(80)",
+     "nullable": true
+    },
+    {
+     "name": "method_name",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "result_unit",
+     "type": "varchar(50)",
+     "nullable": true
+    },
+    {
+     "name": "decimal_places",
+     "type": "tinyint(3) unsigned",
+     "nullable": false,
+     "default": "2"
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "valid_from",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "valid_to",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "assay_id"
+   ],
+   "unique_keys": {
+    "uq_assay_id_instrument": [
+     "assay_id",
+     "instrument_id"
+    ],
+    "uq_assay_route": [
+     "instrument_id",
+     "test_item_id",
+     "specimen_type_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_assays_instrument",
+     "columns": [
+      "instrument_id"
+     ],
+     "ref_table": "instruments",
+     "ref_columns": [
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_assays_specimen",
+     "columns": [
+      "specimen_type_id"
+     ],
+     "ref_table": "specimen_types",
+     "ref_columns": [
+      "specimen_type_id"
+     ]
+    },
+    {
+     "name": "fk_assays_test_item",
+     "columns": [
+      "test_item_id"
+     ],
+     "ref_table": "test_items",
+     "ref_columns": [
+      "test_item_id"
+     ]
+    }
+   ]
+  },
+  "instrument_reagent_loads": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "reagent_load_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "position_code",
+     "type": "varchar(50)",
+     "nullable": false
+    },
+    {
+     "name": "loaded_at",
+     "type": "datetime(6)",
+     "nullable": false
+    },
+    {
+     "name": "unloaded_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "loaded_by",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "unloaded_by",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "current_slot",
+     "type": "tinyint(4)",
+     "nullable": true,
+     "generated": "case when `unloaded_at` is null then 1 else NULL end"
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "reagent_load_id"
+   ],
+   "unique_keys": {
+    "uq_current_instrument_position": [
+     "instrument_id",
+     "position_code",
+     "current_slot"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_reagent_load_instrument",
+     "columns": [
+      "instrument_id"
+     ],
+     "ref_table": "instruments",
+     "ref_columns": [
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_reagent_load_lot",
+     "columns": [
+      "reagent_lot_id"
+     ],
+     "ref_table": "reagent_lots",
+     "ref_columns": [
+      "reagent_lot_id"
+     ]
+    }
+   ]
+  },
+  "lab_sections": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "section_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "section_code",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "section_name",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "description",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "section_id"
+   ],
+   "unique_keys": {
+    "uq_lab_sections_code": [
+     "section_code"
+    ],
+    "uq_lab_sections_name": [
+     "section_name"
+    ]
+   },
+   "foreign_keys": []
+  },
+  "qc_lots": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "qc_lot_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "qc_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "lot_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "level_code",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "received_at",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "opened_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "expiry_date",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "lot_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'AVAILABLE'",
+     "allowed_values": [
+      "QUARANTINE",
+      "AVAILABLE",
+      "IN_USE",
+      "EXHAUSTED",
+      "EXPIRED",
+      "RECALLED"
+     ]
+    },
+    {
+     "name": "parallel_test_done",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "0"
+    },
+    {
+     "name": "parallel_test_date",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "certificate_uri",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "qc_lot_id"
+   ],
+   "unique_keys": {
+    "uq_qc_lot_level": [
+     "qc_product_id",
+     "lot_number",
+     "level_code"
+    ],
+    "uq_qc_lot_product": [
+     "qc_lot_id",
+     "qc_product_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_qc_lots_product",
+     "columns": [
+      "qc_product_id"
+     ],
+     "ref_table": "qc_products",
+     "ref_columns": [
+      "qc_product_id"
+     ]
+    }
+   ]
+  },
+  "qc_products": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "qc_product_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "product_code",
+     "type": "varchar(60)",
+     "nullable": false
+    },
+    {
+     "name": "product_name",
+     "type": "varchar(180)",
+     "nullable": false
+    },
+    {
+     "name": "manufacturer",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "catalog_number",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "matrix_description",
+     "type": "varchar(255)",
+     "nullable": true
+    },
+    {
+     "name": "storage_condition",
+     "type": "varchar(255)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "qc_product_id"
+   ],
+   "unique_keys": {
+    "uq_qc_products_code": [
+     "product_code"
+    ]
+   },
+   "foreign_keys": []
+  },
+  "qc_results": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "qc_result_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "qc_run_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_target_id",
+     "type": "char(36)",
+     "nullable": true
+    },
+    {
+     "name": "result_value",
+     "type": "decimal(18,6)",
+     "nullable": false
+    },
+    {
+     "name": "unit_snapshot",
+     "type": "varchar(50)",
+     "nullable": true
+    },
+    {
+     "name": "target_mean_snapshot",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "target_sd_snapshot",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "z_score",
+     "type": "decimal(18,6)",
+     "nullable": true,
+     "generated": "(`result_value` - `target_mean_snapshot`) / nullif(`target_sd_snapshot`,0)"
+    },
+    {
+     "name": "result_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'PASS'",
+     "allowed_values": [
+      "PASS",
+      "WARNING",
+      "FAIL",
+      "INVALID"
+     ]
+    },
+    {
+     "name": "westgard_flags",
+     "type": "longtext",
+     "nullable": true
+    },
+    {
+     "name": "reviewed_by",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "reviewed_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(1000)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "qc_result_id"
+   ],
+   "unique_keys": {
+    "uq_qc_result_id_assay": [
+     "qc_result_id",
+     "assay_id"
+    ],
+    "uq_qc_result_run_assay": [
+     "qc_run_id",
+     "assay_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_qc_results_assay_instrument",
+     "columns": [
+      "assay_id",
+      "instrument_id"
+     ],
+     "ref_table": "instrument_assays",
+     "ref_columns": [
+      "assay_id",
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_qc_results_requirement",
+     "columns": [
+      "assay_id",
+      "qc_product_id"
+     ],
+     "ref_table": "assay_qc_requirements",
+     "ref_columns": [
+      "assay_id",
+      "qc_product_id"
+     ]
+    },
+    {
+     "name": "fk_qc_results_run_identity",
+     "columns": [
+      "qc_run_id",
+      "instrument_id",
+      "qc_lot_id",
+      "qc_product_id"
+     ],
+     "ref_table": "qc_runs",
+     "ref_columns": [
+      "qc_run_id",
+      "instrument_id",
+      "qc_lot_id",
+      "qc_product_id"
+     ]
+    },
+    {
+     "name": "fk_qc_results_target",
+     "columns": [
+      "qc_target_id",
+      "assay_id",
+      "qc_lot_id",
+      "qc_product_id"
+     ],
+     "ref_table": "qc_target_values",
+     "ref_columns": [
+      "qc_target_id",
+      "assay_id",
+      "qc_lot_id",
+      "qc_product_id"
+     ]
+    }
+   ]
+  },
+  "qc_result_reagents": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "qc_result_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "reagent_role",
+     "type": "varchar(30)",
+     "nullable": false,
+     "default": "'PRIMARY'",
+     "allowed_values": [
+      "PRIMARY",
+      "AUXILIARY",
+      "DILUENT",
+      "WASH",
+      "OTHER"
+     ]
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "qc_result_id",
+    "reagent_lot_id",
+    "reagent_role"
+   ],
+   "unique_keys": {},
+   "foreign_keys": [
+    {
+     "name": "fk_qrr_lot_product",
+     "columns": [
+      "reagent_lot_id",
+      "reagent_product_id"
+     ],
+     "ref_table": "reagent_lots",
+     "ref_columns": [
+      "reagent_lot_id",
+      "reagent_product_id"
+     ]
+    },
+    {
+     "name": "fk_qrr_requirement",
+     "columns": [
+      "assay_id",
+      "reagent_product_id",
+      "reagent_role"
+     ],
+     "ref_table": "assay_reagent_requirements",
+     "ref_columns": [
+      "assay_id",
+      "reagent_product_id",
+      "reagent_role"
+     ]
+    },
+    {
+     "name": "fk_qrr_result_assay",
+     "columns": [
+      "qc_result_id",
+      "assay_id"
+     ],
+     "ref_table": "qc_results",
+     "ref_columns": [
+      "qc_result_id",
+      "assay_id"
+     ]
+    }
+   ]
+  },
+  "qc_runs": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "qc_run_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "run_at",
+     "type": "datetime(6)",
+     "nullable": false
+    },
+    {
+     "name": "operator_id",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "instrument_run_id",
+     "type": "varchar(120)",
+     "nullable": true
+    },
+    {
+     "name": "run_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'COMPLETED'",
+     "allowed_values": [
+      "COMPLETED",
+      "PARTIAL",
+      "CANCELLED"
+     ]
+    },
+    {
+     "name": "note",
+     "type": "varchar(1000)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "qc_run_id"
+   ],
+   "unique_keys": {
+    "uq_qc_run_identity": [
+     "qc_run_id",
+     "instrument_id",
+     "qc_lot_id",
+     "qc_product_id"
+    ],
+    "uq_qc_run_instrument_ref": [
+     "instrument_id",
+     "instrument_run_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_qc_runs_instrument",
+     "columns": [
+      "instrument_id"
+     ],
+     "ref_table": "instruments",
+     "ref_columns": [
+      "instrument_id"
+     ]
+    },
+    {
+     "name": "fk_qc_runs_lot_product",
+     "columns": [
+      "qc_lot_id",
+      "qc_product_id"
+     ],
+     "ref_table": "qc_lots",
+     "ref_columns": [
+      "qc_lot_id",
+      "qc_product_id"
+     ]
+    }
+   ]
+  },
+  "qc_target_values": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "qc_target_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_lot_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "qc_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "target_source",
+     "type": "varchar(20)",
+     "nullable": false,
+     "allowed_values": [
+      "MANUFACTURER",
+      "LAB",
+      "PEER_GROUP"
+     ]
+    },
+    {
+     "name": "target_mean",
+     "type": "decimal(18,6)",
+     "nullable": false
+    },
+    {
+     "name": "target_sd",
+     "type": "decimal(18,6)",
+     "nullable": false
+    },
+    {
+     "name": "acceptable_low",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "acceptable_high",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "effective_from",
+     "type": "datetime(6)",
+     "nullable": false
+    },
+    {
+     "name": "effective_to",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "approved_by",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "approved_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "current_slot",
+     "type": "tinyint(4)",
+     "nullable": true,
+     "generated": "case when `effective_to` is null then 1 else NULL end"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "qc_target_id"
+   ],
+   "unique_keys": {
+    "uq_qc_target_current": [
+     "assay_id",
+     "qc_lot_id",
+     "current_slot"
+    ],
+    "uq_qc_target_identity": [
+     "qc_target_id",
+     "assay_id",
+     "qc_lot_id",
+     "qc_product_id"
+    ],
+    "uq_qc_target_version": [
+     "assay_id",
+     "qc_lot_id",
+     "effective_from"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_qc_target_assay",
+     "columns": [
+      "assay_id"
+     ],
+     "ref_table": "instrument_assays",
+     "ref_columns": [
+      "assay_id"
+     ]
+    },
+    {
+     "name": "fk_qc_target_lot_product",
+     "columns": [
+      "qc_lot_id",
+      "qc_product_id"
+     ],
+     "ref_table": "qc_lots",
+     "ref_columns": [
+      "qc_lot_id",
+      "qc_product_id"
+     ]
+    },
+    {
+     "name": "fk_qc_target_requirement",
+     "columns": [
+      "assay_id",
+      "qc_product_id"
+     ],
+     "ref_table": "assay_qc_requirements",
+     "ref_columns": [
+      "assay_id",
+      "qc_product_id"
+     ]
+    }
+   ]
+  },
+  "reagent_lots": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "reagent_lot_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "reagent_product_id",
+     "type": "char(36)",
+     "nullable": false
+    },
+    {
+     "name": "lot_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "received_at",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "opened_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "expiry_date",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "quantity_received",
+     "type": "decimal(14,3)",
+     "nullable": true
+    },
+    {
+     "name": "quantity_unit",
+     "type": "varchar(30)",
+     "nullable": true
+    },
+    {
+     "name": "lot_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'AVAILABLE'",
+     "allowed_values": [
+      "QUARANTINE",
+      "AVAILABLE",
+      "IN_USE",
+      "EXHAUSTED",
+      "EXPIRED",
+      "RECALLED"
+     ]
+    },
+    {
+     "name": "parallel_test_done",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "0"
+    },
+    {
+     "name": "parallel_test_date",
+     "type": "date",
+     "nullable": true
+    },
+    {
+     "name": "same_lot_as_previous",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "0"
+    },
+    {
+     "name": "previous_reagent_lot_id",
+     "type": "char(36)",
+     "nullable": true
+    },
+    {
+     "name": "certificate_uri",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "reagent_lot_id"
+   ],
+   "unique_keys": {
+    "uq_reagent_lot": [
+     "reagent_product_id",
+     "lot_number"
+    ],
+    "uq_reagent_lot_product": [
+     "reagent_lot_id",
+     "reagent_product_id"
+    ]
+   },
+   "foreign_keys": [
+    {
+     "name": "fk_reagent_lots_prev",
+     "columns": [
+      "previous_reagent_lot_id"
+     ],
+     "ref_table": "reagent_lots",
+     "ref_columns": [
+      "reagent_lot_id"
+     ]
+    },
+    {
+     "name": "fk_reagent_lots_product",
+     "columns": [
+      "reagent_product_id"
+     ],
+     "ref_table": "reagent_products",
+     "ref_columns": [
+      "reagent_product_id"
+     ]
+    }
+   ]
+  },
+  "reagent_products": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "reagent_product_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "product_code",
+     "type": "varchar(60)",
+     "nullable": false
+    },
+    {
+     "name": "product_name",
+     "type": "varchar(180)",
+     "nullable": false
+    },
+    {
+     "name": "manufacturer",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "catalog_number",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "storage_condition",
+     "type": "varchar(255)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "reagent_product_id"
+   ],
+   "unique_keys": {
+    "uq_reagent_products_code": [
+     "product_code"
+    ]
+   },
+   "foreign_keys": []
+  },
+  "specimen_types": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "specimen_type_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "specimen_code",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "specimen_name",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "description",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "specimen_type_id"
+   ],
+   "unique_keys": {
+    "uq_specimen_types_code": [
+     "specimen_code"
+    ]
+   },
+   "foreign_keys": []
+  },
+  "test_items": {
+   "type": "BASE TABLE",
+   "columns": [
+    {
+     "name": "test_item_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "item_code",
+     "type": "varchar(50)",
+     "nullable": false
+    },
+    {
+     "name": "item_name",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "loinc_code",
+     "type": "varchar(30)",
+     "nullable": true
+    },
+    {
+     "name": "default_unit",
+     "type": "varchar(50)",
+     "nullable": true
+    },
+    {
+     "name": "description",
+     "type": "varchar(500)",
+     "nullable": true
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    },
+    {
+     "name": "updated_at",
+     "type": "datetime(6)",
+     "nullable": false,
+     "default": "current_timestamp(6)"
+    }
+   ],
+   "primary_key": [
+    "test_item_id"
+   ],
+   "unique_keys": {
+    "uq_test_items_code": [
+     "item_code"
+    ]
+   },
+   "foreign_keys": []
+  },
+  "v_assay_catalog": {
+   "type": "VIEW",
+   "columns": [
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "section_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "section_code",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "section_name",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "serial_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_name",
+     "type": "varchar(150)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_role",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'主機'"
+    },
+    {
+     "name": "test_item_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "item_code",
+     "type": "varchar(50)",
+     "nullable": false
+    },
+    {
+     "name": "item_name",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "specimen_type_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "specimen_code",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "specimen_name",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "method_name",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "result_unit",
+     "type": "varchar(50)",
+     "nullable": true
+    },
+    {
+     "name": "decimal_places",
+     "type": "tinyint(3) unsigned",
+     "nullable": false,
+     "default": "2"
+    },
+    {
+     "name": "active",
+     "type": "tinyint(1)",
+     "nullable": false,
+     "default": "1"
+    }
+   ],
+   "primary_key": [],
+   "unique_keys": {},
+   "foreign_keys": []
+  },
+  "v_qc_result_detail": {
+   "type": "VIEW",
+   "columns": [
+    {
+     "name": "qc_result_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "qc_run_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "run_at",
+     "type": "datetime(6)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_run_id",
+     "type": "varchar(120)",
+     "nullable": true
+    },
+    {
+     "name": "operator_id",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "section_name",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "serial_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_name",
+     "type": "varchar(150)",
+     "nullable": false
+    },
+    {
+     "name": "instrument_role",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'主機'"
+    },
+    {
+     "name": "assay_id",
+     "type": "char(36)",
+     "nullable": false,
+     "default": "uuid()"
+    },
+    {
+     "name": "item_code",
+     "type": "varchar(50)",
+     "nullable": false
+    },
+    {
+     "name": "item_name",
+     "type": "varchar(150)",
+     "nullable": true
+    },
+    {
+     "name": "specimen_code",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "specimen_name",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "qc_product_code",
+     "type": "varchar(60)",
+     "nullable": false
+    },
+    {
+     "name": "qc_product_name",
+     "type": "varchar(180)",
+     "nullable": false
+    },
+    {
+     "name": "qc_lot_number",
+     "type": "varchar(100)",
+     "nullable": false
+    },
+    {
+     "name": "qc_level",
+     "type": "varchar(30)",
+     "nullable": false
+    },
+    {
+     "name": "result_value",
+     "type": "decimal(18,6)",
+     "nullable": false
+    },
+    {
+     "name": "unit_snapshot",
+     "type": "varchar(50)",
+     "nullable": true
+    },
+    {
+     "name": "target_mean_snapshot",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "target_sd_snapshot",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "z_score",
+     "type": "decimal(18,6)",
+     "nullable": true
+    },
+    {
+     "name": "result_status",
+     "type": "varchar(20)",
+     "nullable": false,
+     "default": "'PASS'"
+    },
+    {
+     "name": "westgard_flags",
+     "type": "longtext",
+     "nullable": true
+    },
+    {
+     "name": "reviewed_by",
+     "type": "varchar(100)",
+     "nullable": true
+    },
+    {
+     "name": "reviewed_at",
+     "type": "datetime(6)",
+     "nullable": true
+    },
+    {
+     "name": "note",
+     "type": "varchar(1000)",
+     "nullable": true
+    }
+   ],
+   "primary_key": [],
+   "unique_keys": {},
+   "foreign_keys": []
+  }
+ }
+}

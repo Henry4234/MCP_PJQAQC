@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1320" viewBox="0 0 1920 1320" role="img" aria-labelledby="title desc">
+  <title id="title">檢驗科儀器、檢驗項目、檢體、品管液、校正液與試劑關係圖</title>
+  <desc id="desc">以 instrument_assays 作為儀器、檢驗項目與檢體別的中心設定，並以三張多對多表連接試劑、品管液與校正液；下層分開保存批號及實際品管與校正事件。</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset="1" stop-color="#eef2ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#059669"/>
+    </marker>
+    <marker id="arrow-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#7c3aed"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#d97706"/>
+    </marker>
+    <style>
+      .font { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, sans-serif; }
+      .title { font: 700 38px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 19px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #475569; }
+      .band-title { font: 700 22px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #334155; }
+      .card-title { font: 700 21px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #0f172a; }
+      .card-sub { font: 600 16px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #475569; }
+      .field { font: 400 15px Consolas, "Microsoft JhengHei", monospace; fill: #334155; }
+      .small { font: 500 14px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #475569; }
+      .edge-label { font: 700 15px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; fill: #334155; paint-order: stroke; stroke: #f8fafc; stroke-width: 5px; }
+      .pill { font: 700 14px "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif; }
+    </style>
+  </defs>
+
+  <rect width="1920" height="1320" fill="url(#bg)"/>
+  <text x="60" y="62" class="title">檢驗科資料關係總覽</text>
+  <text x="60" y="96" class="subtitle">核心原則：先定義「儀器 × 檢驗項目 × 檢體別」，再連接可共用的試劑、品管液與校正液</text>
+
+  <rect x="40" y="125" width="1840" height="735" rx="24" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+  <rect x="40" y="125" width="1840" height="58" rx="24" fill="#e0e7ff"/>
+  <path d="M40 159 Q40 183 64 183 H1856 Q1880 183 1880 159 V184 H40 Z" fill="#e0e7ff"/>
+  <text x="70" y="163" class="band-title">A. 主檔／框架設定層：系統允許什麼</text>
+
+  <!-- Core cards -->
+  <g filter="url(#shadow)">
+    <rect x="70" y="225" width="275" height="125" rx="16" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+    <rect x="70" y="225" width="8" height="125" rx="4" fill="#2563eb"/>
+    <text x="94" y="257" class="card-title">科別 lab_sections</text>
+    <text x="94" y="285" class="field">PK section_id</text>
+    <text x="94" y="310" class="field">UK section_code</text>
+    <text x="94" y="334" class="small">生化／血液／免疫…</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="410" y="225" width="285" height="145" rx="16" fill="#eff6ff" stroke="#60a5fa" stroke-width="2"/>
+    <rect x="410" y="225" width="8" height="145" rx="4" fill="#2563eb"/>
+    <text x="434" y="257" class="card-title">儀器 instruments</text>
+    <text x="434" y="285" class="field">PK instrument_id</text>
+    <text x="434" y="310" class="field">FK section_id</text>
+    <text x="434" y="335" class="field">UK serial_number</text>
+    <text x="434" y="358" class="small">主機／備機分開追蹤</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="70" y="430" width="275" height="125" rx="16" fill="#f0f9ff" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="70" y="430" width="8" height="125" rx="4" fill="#0284c7"/>
+    <text x="94" y="462" class="card-title">檢驗項目 test_items</text>
+    <text x="94" y="490" class="field">PK test_item_id</text>
+    <text x="94" y="515" class="field">UK item_code</text>
+    <text x="94" y="540" class="small">GLU／Na／WBC…</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="410" y="430" width="285" height="125" rx="16" fill="#f0f9ff" stroke="#38bdf8" stroke-width="2"/>
+    <rect x="410" y="430" width="8" height="125" rx="4" fill="#0284c7"/>
+    <text x="434" y="462" class="card-title">檢體 specimen_types</text>
+    <text x="434" y="490" class="field">PK specimen_type_id</text>
+    <text x="434" y="515" class="field">UK specimen_code</text>
+    <text x="434" y="540" class="small">BLOOD／URINE／CSF</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="770" y="250" width="390" height="235" rx="20" fill="#dbeafe" stroke="#2563eb" stroke-width="4"/>
+    <text x="800" y="288" class="card-title">檢驗設定 instrument_assays</text>
+    <text x="800" y="320" class="card-sub">關係模型的中心 Hub</text>
+    <text x="800" y="352" class="field">PK assay_id</text>
+    <text x="800" y="380" class="field">FK instrument_id</text>
+    <text x="800" y="408" class="field">FK test_item_id</text>
+    <text x="800" y="436" class="field">FK specimen_type_id</text>
+    <rect x="792" y="451" width="345" height="24" rx="12" fill="#2563eb"/>
+    <text x="965" y="468" text-anchor="middle" class="pill" fill="#ffffff">唯一：儀器 + 項目 + 檢體別</text>
+  </g>
+
+  <!-- Core edges -->
+  <path d="M345 287 H410" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="365" y="276" class="edge-label">1:N</text>
+  <path d="M695 300 C730 300 730 330 770 330" fill="none" stroke="#2563eb" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="718" y="303" class="edge-label">1:N</text>
+  <path d="M345 490 H375 V400 H710 C740 400 745 390 770 390" fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="500" y="391" class="edge-label">1:N</text>
+  <path d="M695 492 C730 492 735 438 770 430" fill="none" stroke="#0284c7" stroke-width="3" marker-end="url(#arrow-blue)"/>
+  <text x="706" y="480" class="edge-label">1:N</text>
+
+  <!-- Mapping cards -->
+  <g filter="url(#shadow)">
+    <rect x="560" y="575" width="390" height="105" rx="15" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
+    <text x="582" y="608" class="card-title">assay_reagent_requirements</text>
+    <text x="582" y="636" class="field">assay_id + reagent_product_id + role</text>
+    <text x="582" y="662" class="small">項目 ↔ 試劑：N:M</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="985" y="575" width="365" height="105" rx="15" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
+    <text x="1007" y="608" class="card-title">assay_qc_requirements</text>
+    <text x="1007" y="636" class="field">assay_id + qc_product_id</text>
+    <text x="1007" y="662" class="small">項目 ↔ 品管液：N:M</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1385" y="575" width="430" height="105" rx="15" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
+    <text x="1407" y="608" class="card-title">assay_calibrator_requirements</text>
+    <text x="1407" y="636" class="field">assay_id + calibrator_product_id</text>
+    <text x="1407" y="662" class="small">項目 ↔ 校正液：N:M</text>
+  </g>
+
+  <path d="M880 485 C840 520 790 540 755 575" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <path d="M965 485 C965 525 1100 530 1160 575" fill="none" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrow-purple)"/>
+  <path d="M1050 485 C1180 510 1450 505 1580 575" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrow-amber)"/>
+
+  <!-- Product cards -->
+  <g filter="url(#shadow)">
+    <rect x="560" y="725" width="390" height="100" rx="15" fill="#d1fae5" stroke="#059669" stroke-width="3"/>
+    <text x="582" y="760" class="card-title">試劑產品 reagent_products</text>
+    <text x="582" y="790" class="small">穩定產品定義，不含批號</text>
+    <text x="582" y="814" class="field">PK reagent_product_id</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="985" y="725" width="365" height="100" rx="15" fill="#ede9fe" stroke="#7c3aed" stroke-width="3"/>
+    <text x="1007" y="760" class="card-title">品管液產品 qc_products</text>
+    <text x="1007" y="790" class="small">同一多項品管液可管理多個項目</text>
+    <text x="1007" y="814" class="field">PK qc_product_id</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1385" y="725" width="430" height="100" rx="15" fill="#fef3c7" stroke="#d97706" stroke-width="3"/>
+    <text x="1407" y="760" class="card-title">校正液產品 calibrator_products</text>
+    <text x="1407" y="790" class="small">同一多項校正液可校正多個項目</text>
+    <text x="1407" y="814" class="field">PK calibrator_product_id</text>
+  </g>
+
+  <path d="M755 680 V725" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <text x="769" y="709" class="edge-label">N:1</text>
+  <path d="M1167 680 V725" fill="none" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrow-purple)"/>
+  <text x="1181" y="709" class="edge-label">N:1</text>
+  <path d="M1600 680 V725" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrow-amber)"/>
+  <text x="1614" y="709" class="edge-label">N:1</text>
+
+  <!-- Real data band -->
+  <rect x="40" y="895" width="1840" height="375" rx="24" fill="#fffdf7" stroke="#d6d3d1" stroke-width="2"/>
+  <rect x="40" y="895" width="1840" height="58" rx="24" fill="#ffedd5"/>
+  <path d="M40 929 Q40 953 64 953 H1856 Q1880 953 1880 929 V954 H40 Z" fill="#ffedd5"/>
+  <text x="70" y="933" class="band-title">B. 真實批號／交易／稽核層：現場實際用了什麼、發生了什麼</text>
+
+  <!-- Down connectors -->
+  <path d="M755 825 V972" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <path d="M1167 825 V972" fill="none" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrow-purple)"/>
+  <path d="M1600 825 V972" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrow-amber)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="545" y="972" width="420" height="105" rx="15" fill="#ecfdf5" stroke="#059669" stroke-width="2"/>
+    <text x="567" y="1007" class="card-title">reagent_lots 試劑批號</text>
+    <text x="567" y="1037" class="field">lot_number / expiry / status</text>
+    <text x="567" y="1063" class="small">→ instrument_reagent_loads 裝機歷程</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="985" y="972" width="365" height="105" rx="15" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2"/>
+    <text x="1007" y="1007" class="card-title">qc_lots 品管液批號＋Level</text>
+    <text x="1007" y="1037" class="field">lot_number / level_code / expiry</text>
+    <text x="1007" y="1063" class="small">一個 kit 的 Level 1/2/3 各一列</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1385" y="972" width="430" height="105" rx="15" fill="#fffbeb" stroke="#d97706" stroke-width="2"/>
+    <text x="1407" y="1007" class="card-title">calibrator_lots 校正液批號</text>
+    <text x="1407" y="1037" class="field">lot_number / level_code / expiry</text>
+    <text x="1407" y="1063" class="small">批號與產品主檔分離</text>
+  </g>
+
+  <!-- Transaction cards -->
+  <g filter="url(#shadow)">
+    <rect x="545" y="1125" width="420" height="105" rx="15" fill="#ffffff" stroke="#059669" stroke-width="2" stroke-dasharray="8 5"/>
+    <text x="567" y="1158" class="card-title">實際試劑追溯</text>
+    <text x="567" y="1187" class="field">qc_result_reagents</text>
+    <text x="567" y="1213" class="small">每筆結果實際用了哪些 reagent lot</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="985" y="1125" width="365" height="105" rx="15" fill="#ffffff" stroke="#7c3aed" stroke-width="2" stroke-dasharray="8 5"/>
+    <text x="1007" y="1158" class="card-title">品管執行與結果</text>
+    <text x="1007" y="1187" class="field">qc_runs → qc_results</text>
+    <text x="1007" y="1213" class="small">target mean/SD 快照＋Westgard</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="1385" y="1125" width="430" height="105" rx="15" fill="#ffffff" stroke="#d97706" stroke-width="2" stroke-dasharray="8 5"/>
+    <text x="1407" y="1158" class="card-title">校正事件與各項結果</text>
+    <text x="1407" y="1187" class="field">calibration_events → event_assays</text>
+    <text x="1407" y="1213" class="small">一次校正可涵蓋多個 assay</text>
+  </g>
+
+  <path d="M755 1077 V1125" fill="none" stroke="#059669" stroke-width="3" marker-end="url(#arrow-green)"/>
+  <path d="M1167 1077 V1125" fill="none" stroke="#7c3aed" stroke-width="3" marker-end="url(#arrow-purple)"/>
+  <path d="M1600 1077 V1125" fill="none" stroke="#d97706" stroke-width="3" marker-end="url(#arrow-amber)"/>
+
+  <!-- Target callout -->
+  <rect x="70" y="1000" width="415" height="165" rx="18" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+  <text x="94" y="1036" class="card-title">qc_target_values（版本化）</text>
+  <text x="94" y="1067" class="field">assay_id + qc_lot_id</text>
+  <text x="94" y="1095" class="field">mean / SD / effective_from/to</text>
+  <text x="94" y="1125" class="small">同一品管液對不同項目／檢體，</text>
+  <text x="94" y="1150" class="small">可有不同 target mean 與 SD。</text>
+  <path d="M485 1080 H985" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-dasharray="9 6" marker-end="url(#arrow-purple)"/>
+
+  <!-- Footer legend -->
+  <text x="70" y="1300" class="small">PK = Primary Key　FK = Foreign Key　UK = Unique Key　N:M = 多對多；產品（設定）與批號／結果（真實資料）分開保存</text>
+</svg>
